@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S+ — Talabalar So'rovnomasi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #111640;
+            --bg-card: #161b4a;
+            --bg-input: #1c2255;
+            --border: #2a3070;
+            --border-focus: #6c7bff;
+            --accent: #6c7bff;
+            --accent-light: #8b97ff;
+            --accent-glow: rgba(108, 123, 255, 0.15);
+            --cyan: #00e5ff;
+            --green: #00e676;
+            --pink: #ff4081;
+            --yellow: #ffd740;
+            --text-primary: #e8eaff;
+            --text-secondary: #8890b5;
+            --text-muted: #5a6190;
+            --section-number: #6c7bff;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Background decoration */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108,123,255,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -300px;
+            left: -200px;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(0,229,255,0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+            animation: fadeDown 0.8s ease;
+        }
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent), var(--cyan));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            box-shadow: 0 4px 20px rgba(108,123,255,0.3);
+        }
+
+        .logo-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(24px, 5vw, 32px);
+            font-weight: 700;
+            margin: 20px 0 12px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        .header p em {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 36px;
+            animation: fadeUp 0.6s ease both;
+        }
+        .section:nth-child(2) { animation-delay: 0.1s; }
+        .section:nth-child(3) { animation-delay: 0.15s; }
+        .section:nth-child(4) { animation-delay: 0.2s; }
+        .section:nth-child(5) { animation-delay: 0.25s; }
+        .section:nth-child(6) { animation-delay: 0.3s; }
+        .section:nth-child(7) { animation-delay: 0.35s; }
+        .section:nth-child(8) { animation-delay: 0.4s; }
+        .section:nth-child(9) { animation-delay: 0.45s; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--accent-glow);
+            border: 1px solid rgba(108,123,255,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-light);
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .section-title-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 400;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* Question */
+        .question {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+        .question:hover {
+            border-color: rgba(108,123,255,0.3);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+        }
+
+        .q-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            background: var(--accent);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-right: 10px;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+
+        .q-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            display: inline;
+        }
+
+        .q-sublabel {
+            display: block;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            margin-bottom: 14px;
+            padding-left: 36px;
+        }
+
+        /* Input styles */
+        .input-text, .input-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            transition: var(--transition);
+            outline: none;
+        }
+        .input-text:focus, .input-textarea:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        .input-text::placeholder, .input-textarea::placeholder {
+            color: var(--text-muted);
+        }
+        .input-textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        /* Radio & Checkbox */
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .option-btn {
+            position: relative;
+        }
+        .option-btn input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .option-btn label {
+            display: inline-block;
+            padding: 10px 18px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+        .option-btn label:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+            background: rgba(108,123,255,0.08);
+        }
+        .option-btn input:checked + label {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+            box-shadow: 0 2px 12px rgba(108,123,255,0.3);
+        }
+
+        /* Notes area */
+        .notes-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-top: 12px;
+            margin-bottom: 36px;
+        }
+        .notes-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent-light);
+            border: none;
+            background: none;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .notes-toggle::before {
+            content: '+';
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .notes-content {
+            display: none;
+            margin-top: 16px;
+        }
+        .notes-content.active {
+            display: block;
+        }
+
+        /* Validation note */
+        .validation-note {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* Submit */
+        .submit-area {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 48px;
+            background: linear-gradient(135deg, var(--accent), #4f5cff);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 24px rgba(108,123,255,0.3);
+            letter-spacing: 0.5px;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(108,123,255,0.4);
+        }
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        .footer p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .footer p em {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* Success overlay */
+        .success-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10,14,39,0.95);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .success-overlay.active {
+            display: flex;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green), #00c853);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        .success-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .success-sub {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container { padding: 24px 16px 40px; }
+            .question { padding: 18px; }
+            .options { gap: 8px; }
+            .option-btn label { padding: 8px 14px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo-area">
+            <div class="logo-icon">S+</div>
+        </div>
+        <div class="logo-text">Student Discount Platform</div>
+        <h1>Customer Development — Talabalar So'rovnomasi</h1>
+        <p>Ushbu so'rovnoma S+ platformasini ishlab chiqish uchun talabalarning ehtiyojlarini o'rganishga qaratilgan.<br>
+        <em>Данный опросник направлен на изучение потребностей студентов для разработки платформы S+.</em></p>
+    </div>
+
+    <form id="surveyForm">
+
+    <!-- SECTION 1: Umumiy ma'lumotlar -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">1</div>
+            <div>
+                <div class="section-title">Umumiy ma'lumotlar</div>
+                <div class="section-title-sub">Общая информация</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">1</span><span class="q-label">Ismingiz</span>
+            <div class="q-sublabel">Ваше имя</div>
+            <input type="text" class="input-text" data-q="1" placeholder="Masalan: Alisher">
+        </div>
+
+        <div class="question">
+            <span class="q-number">2</span><span class="q-label">Yoshingiz</span>
+            <div class="q-sublabel">Ваш возраст</div>
+            <input type="number" class="input-text" data-q="2" placeholder="Masalan: 20" min="14" max="40">
+        </div>
+
+        <div class="question">
+            <span class="q-number">3</span><span class="q-label">Jinsingiz</span>
+            <div class="q-sublabel">Пол</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q3" id="q3a" data-q="3" value="Erkak"><label for="q3a">Erkak / Мужской</label></div>
+                <div class="option-btn"><input type="radio" name="q3" id="q3b" data-q="3" value="Ayol"><label for="q3b">Ayol / Женский</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">4</span><span class="q-label">Qayerda yashaysiz? (shahar/tuman)</span>
+            <div class="q-sublabel">Где вы живёте? (город/район)</div>
+            <input type="text" class="input-text" data-q="4" placeholder="Masalan: Toshkent, Yunusobod">
+        </div>
+
+        <div class="question">
+            <span class="q-number">5</span><span class="q-label">Yashash joyingiz</span>
+            <div class="q-sublabel">Где проживаете?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q5" id="q5a" data-q="5" value="Talabalar yotoqxonasi"><label for="q5a">Talabalar yotoqxonasi / Общежитие</label></div>
+                <div class="option-btn"><input type="radio" name="q5" id="q5b" data-q="5" value="O'z uyim"><label for="q5b">O'z uyim / Свой дом</label></div>
+                <div class="option-btn"><input type="radio" name="q5" id="q5c" data-q="5" value="Qarindoshlar uyida"><label for="q5c">Qarindoshlar uyida / У родственников</label></div>
+                <div class="option-btn"><input type="radio" name="q5" id="q5d" data-q="5" value="Ijaraga"><label for="q5d">Ijaraga / Аренда</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">6</span><span class="q-label">Qaysi o'quv yurtida o'qiysiz?</span>
+            <div class="q-sublabel">В каком учебном заведении учитесь?</div>
+            <input type="text" class="input-text" data-q="6" placeholder="Masalan: TATU">
+        </div>
+
+        <div class="question">
+            <span class="q-number">7</span><span class="q-label">Nechanchi kursda o'qiysiz?</span>
+            <div class="q-sublabel">На каком курсе учитесь?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q7" id="q7a" data-q="7" value="1-kurs"><label for="q7a">1-kurs</label></div>
+                <div class="option-btn"><input type="radio" name="q7" id="q7b" data-q="7" value="2-kurs"><label for="q7b">2-kurs</label></div>
+                <div class="option-btn"><input type="radio" name="q7" id="q7c" data-q="7" value="3-kurs"><label for="q7c">3-kurs</label></div>
+                <div class="option-btn"><input type="radio" name="q7" id="q7d" data-q="7" value="4-kurs"><label for="q7d">4-kurs</label></div>
+                <div class="option-btn"><input type="radio" name="q7" id="q7e" data-q="7" value="Magistratura"><label for="q7e">Magistratura</label></div>
+                <div class="option-btn"><input type="radio" name="q7" id="q7f" data-q="7" value="Kollej"><label for="q7f">Kollej</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">8</span><span class="q-label">Oylik xarajatingiz taxminan qancha?</span>
+            <div class="q-sublabel">Примерные ежемесячные расходы?</div>
+            <input type="text" class="input-text" data-q="8" placeholder="Masalan: 500 000 - 1 000 000 so'm">
+        </div>
+    </div>
+
+    <!-- SECTION 2: Chegirma odatlari -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">2</div>
+            <div>
+                <div class="section-title">Chegirma va tejash odatlari</div>
+                <div class="section-title-sub">Привычки экономии и скидки</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">9</span><span class="q-label">Hozirda talaba sifatida biror chegirmadan foydalanasizmi?</span>
+            <div class="q-sublabel">Пользуетесь ли вы сейчас студенческими скидками?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q6" id="q6a"><label for="q6a">Ha / Да</label></div>
+                <div class="option-btn"><input type="radio" name="q6" id="q6b"><label for="q6b">Yo'q / Нет</label></div>
+                <div class="option-btn"><input type="radio" name="q6" id="q6c"><label for="q6c">Kam / Редко</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">10</span><span class="q-label">Agar ha — qayerda va qanday?</span>
+            <div class="q-sublabel">Если да — где и как?</div>
+            <input type="text" class="input-text" placeholder="Masalan: kafe, transport, kitob do'koni...">
+        </div>
+
+        <div class="question">
+            <span class="q-number">11</span><span class="q-label">Eng ko'p pul sarflaydigan sohalaringiz?</span>
+            <div class="q-sublabel">На что тратите больше всего?</div>
+            <div class="options">
+                <div class="option-btn"><input type="checkbox" id="q8a"><label for="q8a">Ovqat / Еда</label></div>
+                <div class="option-btn"><input type="checkbox" id="q8b"><label for="q8b">Kafe / Кафе</label></div>
+                <div class="option-btn"><input type="checkbox" id="q8c"><label for="q8c">Transport / Транспорт</label></div>
+                <div class="option-btn"><input type="checkbox" id="q8d"><label for="q8d">Kiyim / Одежда</label></div>
+                <div class="option-btn"><input type="checkbox" id="q8e"><label for="q8e">O'quv materiallari / Учёба</label></div>
+                <div class="option-btn"><input type="checkbox" id="q8f"><label for="q8f">Ko'ngil ochar / Развлечения</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">12</span><span class="q-label">Oyiga taxminan qancha tejashni xohlardingiz?</span>
+            <div class="q-sublabel">Сколько хотели бы экономить в месяц?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q9" id="q9a"><label for="q9a">50-100K so'm</label></div>
+                <div class="option-btn"><input type="radio" name="q9" id="q9b"><label for="q9b">100-200K so'm</label></div>
+                <div class="option-btn"><input type="radio" name="q9" id="q9c"><label for="q9c">200K+ so'm</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">13</span><span class="q-label">Talaba chegirma kartasi (ISIC) haqida eshitganmisiz?</span>
+            <div class="q-sublabel">Слышали ли вы о студенческой карте скидок (ISIC)?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q10" id="q10a"><label for="q10a">Ha / Да</label></div>
+                <div class="option-btn"><input type="radio" name="q10" id="q10b"><label for="q10b">Yo'q / Нет</label></div>
+                <div class="option-btn"><input type="radio" name="q10" id="q10c"><label for="q10c">Foydalanganman / Использовал</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: Ishonch va xavfsizlik -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">3</div>
+            <div>
+                <div class="section-title">Ishonch va xavfsizlik</div>
+                <div class="section-title-sub">Доверие и безопасность</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">14</span><span class="q-label">Telegram chegirma botlari va kanallardan foydalanasizmi?</span>
+            <div class="q-sublabel">Используете ли Telegram-боты и каналы скидок?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q11" id="q11a"><label for="q11a">Ha, doimiy / Да, постоянно</label></div>
+                <div class="option-btn"><input type="radio" name="q11" id="q11b"><label for="q11b">Ba'zan / Иногда</label></div>
+                <div class="option-btn"><input type="radio" name="q11" id="q11c"><label for="q11c">Yo'q / Нет</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">15</span><span class="q-label">Ularning muammolari nima?</span>
+            <div class="q-sublabel">Какие у них проблемы?</div>
+            <div class="options">
+                <div class="option-btn"><input type="checkbox" id="q12a"><label for="q12a">Firibgarlik / Мошенничество</label></div>
+                <div class="option-btn"><input type="checkbox" id="q12b"><label for="q12b">Eskirgan ma'lumot / Устаревшие</label></div>
+                <div class="option-btn"><input type="checkbox" id="q12c"><label for="q12c">Noqulay / Неудобные</label></div>
+                <div class="option-btn"><input type="checkbox" id="q12d"><label for="q12d">Haqiqiy emas / Ненастоящие</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">16</span><span class="q-label">Chegirma platformasiga ishonch qanday shakllanadi?</span>
+            <div class="q-sublabel">Как формируется доверие к платформе скидок?</div>
+            <div class="options">
+                <div class="option-btn"><input type="checkbox" id="q13a"><label for="q13a">Rasmiy ilova / Офиц. приложение</label></div>
+                <div class="option-btn"><input type="checkbox" id="q13b"><label for="q13b">Do'stlar tavsiyasi / Друзья</label></div>
+                <div class="option-btn"><input type="checkbox" id="q13c"><label for="q13c">Taniqli brendlar / Известные бренды</label></div>
+                <div class="option-btn"><input type="checkbox" id="q13d"><label for="q13d">Sharhlar / Отзывы</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">17</span><span class="q-label">Face ID orqali o'zingizni tasdiqlash — bu sizga qulaymi?</span>
+            <div class="q-sublabel">Удобно ли подтверждение личности через Face ID?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q14" id="q14a"><label for="q14a">Ha, xavfsiz / Да, безопасно</label></div>
+                <div class="option-btn"><input type="radio" name="q14" id="q14b"><label for="q14b">Bilmayman / Не знаю</label></div>
+                <div class="option-btn"><input type="radio" name="q14" id="q14c"><label for="q14c">Yo'q / Нет</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4: S+ platformasi haqida -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">4</div>
+            <div>
+                <div class="section-title">S+ platformasi haqida</div>
+                <div class="section-title-sub">О платформе S+</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">18</span><span class="q-label">Raqamli talaba kartasi orqali 5-10% chegirma olish — bu sizga qiziqmi?</span>
+            <div class="q-sublabel">Интересно ли получать 5-10% скидку через цифровую студенческую карту?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q15" id="q15a"><label for="q15a">Ha, juda / Да, очень</label></div>
+                <div class="option-btn"><input type="radio" name="q15" id="q15b"><label for="q15b">Balki / Возможно</label></div>
+                <div class="option-btn"><input type="radio" name="q15" id="q15c"><label for="q15c">Yo'q / Нет</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">19</span><span class="q-label">Qaysi joylarda chegirma bo'lishini xohlardingiz?</span>
+            <div class="q-sublabel">Где бы хотели получать скидки?</div>
+            <div class="options">
+                <div class="option-btn"><input type="checkbox" id="q16a"><label for="q16a">Kafelar / Кафе</label></div>
+                <div class="option-btn"><input type="checkbox" id="q16b"><label for="q16b">Kiyim do'konlar / Одежда</label></div>
+                <div class="option-btn"><input type="checkbox" id="q16c"><label for="q16c">Kitob do'konlar / Книги</label></div>
+                <div class="option-btn"><input type="checkbox" id="q16d"><label for="q16d">Sport zallar / Фитнес</label></div>
+                <div class="option-btn"><input type="checkbox" id="q16e"><label for="q16e">Onlayn xizmatlar / Онлайн</label></div>
+                <div class="option-btn"><input type="checkbox" id="q16f"><label for="q16f">Transport / Транспорт</label></div>
+                <div class="option-btn"><input type="checkbox" id="q16g"><label for="q16g">Kurslar / Курсы</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">20</span><span class="q-label">Yandex Music, Spotify kabi bonus obunalar qiziqmi?</span>
+            <div class="q-sublabel">Интересны ли бонусные подписки (Yandex Music, Spotify)?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q17" id="q17a"><label for="q17a">Ha / Да</label></div>
+                <div class="option-btn"><input type="radio" name="q17" id="q17b"><label for="q17b">Balki / Возможно</label></div>
+                <div class="option-btn"><input type="radio" name="q17" id="q17c"><label for="q17c">Yo'q / Нет</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">21</span><span class="q-label">QR kod orqali to'lov qilish — bu sizga qulaymi?</span>
+            <div class="q-sublabel">Удобна ли оплата через QR-код?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q18" id="q18a"><label for="q18a">Ha / Да</label></div>
+                <div class="option-btn"><input type="radio" name="q18" id="q18b"><label for="q18b">Bilmayman / Не знаю</label></div>
+                <div class="option-btn"><input type="radio" name="q18" id="q18c"><label for="q18c">Yo'q / Нет</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">22</span><span class="q-label">Xaritada yaqin atrofdagi chegirma joylarni ko'rish — foydali bo'larmidi?</span>
+            <div class="q-sublabel">Была бы полезна карта ближайших мест со скидками?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q19" id="q19a"><label for="q19a">Ha, albatta / Да, конечно</label></div>
+                <div class="option-btn"><input type="radio" name="q19" id="q19b"><label for="q19b">Balki / Возможно</label></div>
+                <div class="option-btn"><input type="radio" name="q19" id="q19c"><label for="q19c">Yo'q / Нет</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 5: Obuna va to'lov -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">5</div>
+            <div>
+                <div class="section-title">Obuna va to'lov</div>
+                <div class="section-title-sub">Подписка и оплата</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">23</span><span class="q-label">Oylik obunaga qancha to'lashga tayyorsiz?</span>
+            <div class="q-sublabel">Сколько готовы платить за ежемесячную подписку?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q20" id="q20a"><label for="q20a">30 000 so'm</label></div>
+                <div class="option-btn"><input type="radio" name="q20" id="q20b"><label for="q20b">50 000 so'm</label></div>
+                <div class="option-btn"><input type="radio" name="q20" id="q20c"><label for="q20c">100 000 so'm</label></div>
+                <div class="option-btn"><input type="radio" name="q20" id="q20d"><label for="q20d">To'lamayman / Не буду</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">24</span><span class="q-label">Qaysi to'lov usuli qulayroq?</span>
+            <div class="q-sublabel">Какой способ оплаты удобнее?</div>
+            <div class="options">
+                <div class="option-btn"><input type="checkbox" id="q21a"><label for="q21a">Click</label></div>
+                <div class="option-btn"><input type="checkbox" id="q21b"><label for="q21b">Payme</label></div>
+                <div class="option-btn"><input type="checkbox" id="q21c"><label for="q21c">Uzum</label></div>
+                <div class="option-btn"><input type="checkbox" id="q21d"><label for="q21d">Karta / Карта</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">25</span><span class="q-label">Bepul sinov muddati (7 kun) — bu sizni qiziqtiradimi?</span>
+            <div class="q-sublabel">Интересен ли бесплатный пробный период (7 дней)?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q22" id="q22a"><label for="q22a">Ha / Да</label></div>
+                <div class="option-btn"><input type="radio" name="q22" id="q22b"><label for="q22b">Bilmayman / Не знаю</label></div>
+                <div class="option-btn"><input type="radio" name="q22" id="q22c"><label for="q22c">Yo'q / Нет</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 6: Gamifikatsiya va referral -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">6</div>
+            <div>
+                <div class="section-title">Gamifikatsiya va tavsiya tizimi</div>
+                <div class="section-title-sub">Геймификация и реферальная система</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">26</span><span class="q-label">Ball to'plash va reyting tizimi sizga qiziqmi?</span>
+            <div class="q-sublabel">Интересна ли система баллов и рейтинга?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q23" id="q23a"><label for="q23a">Ha / Да</label></div>
+                <div class="option-btn"><input type="radio" name="q23" id="q23b"><label for="q23b">Balki / Возможно</label></div>
+                <div class="option-btn"><input type="radio" name="q23" id="q23c"><label for="q23c">Yo'q / Нет</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">27</span><span class="q-label">Do'stlaringizni taklif qilsangiz, bonus olish — motivatsiya bo'ladimi?</span>
+            <div class="q-sublabel">Мотивирует ли бонус за приглашение друзей?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q24" id="q24a"><label for="q24a">Ha, albatta / Да, конечно</label></div>
+                <div class="option-btn"><input type="radio" name="q24" id="q24b"><label for="q24b">Balki / Возможно</label></div>
+                <div class="option-btn"><input type="radio" name="q24" id="q24c"><label for="q24c">Yo'q / Нет</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 7: Texnologiya -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">7</div>
+            <div>
+                <div class="section-title">Texnologiya va qurilmalar</div>
+                <div class="section-title-sub">Технологии и устройства</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">28</span><span class="q-label">Qaysi telefondan foydalanasiz?</span>
+            <div class="q-sublabel">Какой телефон используете?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q25" id="q25a"><label for="q25a">iPhone</label></div>
+                <div class="option-btn"><input type="radio" name="q25" id="q25b"><label for="q25b">Android</label></div>
+                <div class="option-btn"><input type="radio" name="q25" id="q25c"><label for="q25c">Ikkalasi / Оба</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">29</span><span class="q-label">Qaysi ijtimoiy tarmoqlardan foydalanasiz?</span>
+            <div class="q-sublabel">Какими соцсетями пользуетесь?</div>
+            <div class="options">
+                <div class="option-btn"><input type="checkbox" id="q26a"><label for="q26a">Telegram</label></div>
+                <div class="option-btn"><input type="checkbox" id="q26b"><label for="q26b">Instagram</label></div>
+                <div class="option-btn"><input type="checkbox" id="q26c"><label for="q26c">TikTok</label></div>
+                <div class="option-btn"><input type="checkbox" id="q26d"><label for="q26d">YouTube</label></div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">30</span><span class="q-label">Yangi ilovani o'rnatib sinab ko'rishga tayyormisiz?</span>
+            <div class="q-sublabel">Готовы ли установить и попробовать новое приложение?</div>
+            <div class="options">
+                <div class="option-btn"><input type="radio" name="q27" id="q27a"><label for="q27a">Ha / Да</label></div>
+                <div class="option-btn"><input type="radio" name="q27" id="q27b"><label for="q27b">Balki / Возможно</label></div>
+                <div class="option-btn"><input type="radio" name="q27" id="q27c"><label for="q27c">Yo'q / Нет</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 8: Qo'shimcha -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">8</div>
+            <div>
+                <div class="section-title">Qo'shimcha</div>
+                <div class="section-title-sub">Дополнительно</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="q-number">31</span><span class="q-label">Sizningcha, O'zbekistonda talaba chegirmalar sohasida nima yetishmaydi?</span>
+            <div class="q-sublabel">Чего, по-вашему, не хватает в сфере студенческих скидок?</div>
+            <textarea class="input-textarea" placeholder="Fikringizni yozing..."></textarea>
+        </div>
+
+        <div class="question">
+            <span class="q-number">32</span><span class="q-label">Yana biror taklifingiz yoki fikringiz bormi?</span>
+            <div class="q-sublabel">Есть ли дополнительные предложения или мысли?</div>
+            <textarea class="input-textarea" placeholder="Fikringizni yozing..."></textarea>
+        </div>
+
+        <div class="question">
+            <span class="q-number">33</span><span class="q-label">Aloqa uchun qulay usul</span>
+            <div class="q-sublabel">Удобный способ связи (Telegram / телефон)</div>
+            <input type="text" class="input-text" placeholder="@username yoki telefon raqam">
+        </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="notes-section">
+        <button type="button" class="notes-toggle" onclick="this.nextElementSibling.classList.toggle('active')">Qo'shimcha izohlar / Дополнительные заметки</button>
+        <div class="notes-content">
+            <textarea class="input-textarea" placeholder="Qo'shimcha izohlaringiz..."></textarea>
+        </div>
+    </div>
+
+    <!-- Validation -->
+    <div class="validation-note">Barcha savollarga javob bering / Ответьте на все вопросы</div>
+
+    <!-- Submit -->
+    <div class="submit-area">
+        <button type="button" class="submit-btn" onclick="submitForm()">
+            Yuborish / Отправить
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+    </div>
+
+    </form>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Vaqtingiz uchun rahmat! / Спасибо за ваше время!</p>
+        <p><em>Barcha javoblar maxfiy saqlanadi / Все ответы конфиденциальны</em></p>
+    </div>
+</div>
+
+<!-- Success Overlay -->
+<div class="success-overlay" id="successOverlay">
+    <div class="success-icon">✓</div>
+    <div class="success-text">Javoblar saqlandi!</div>
+    <div class="success-sub">Ответы сохранены!</div>
+</div>
+
+<script>
+const BOT_TOKEN = '7816305498:AAGCGsaFMc_gG4FkdoJH9hjtLJfIBPBcNsg';
+const CHAT_ID = '-1002492360300';
+
+function collectAnswers() {
+    const answers = {};
+    const questions = document.querySelectorAll('.question');
+
+    questions.forEach(q => {
+        const numEl = q.querySelector('.q-number');
+        const labelEl = q.querySelector('.q-label');
+        if (!numEl || !labelEl) return;
+
+        const num = numEl.textContent.trim();
+        const label = labelEl.textContent.trim();
+        let answer = '';
+
+        // Text / number inputs
+        const textInput = q.querySelector('.input-text');
+        if (textInput) {
+            answer = textInput.value.trim();
+        }
+
+        // Textarea
+        const textarea = q.querySelector('.input-textarea');
+        if (textarea) {
+            answer = textarea.value.trim();
+        }
+
+        // Radio buttons
+        const checkedRadio = q.querySelector('input[type="radio"]:checked');
+        if (checkedRadio) {
+            answer = checkedRadio.nextElementSibling.textContent.trim();
+        }
+
+        // Checkboxes
+        const checkedBoxes = q.querySelectorAll('input[type="checkbox"]:checked');
+        if (checkedBoxes.length > 0) {
+            answer = Array.from(checkedBoxes).map(cb => cb.nextElementSibling.textContent.trim()).join(', ');
+        }
+
+        answers[num] = { label, answer: answer || '—' };
+    });
+
+    // Notes
+    const notesArea = document.querySelector('.notes-content .input-textarea');
+    if (notesArea && notesArea.value.trim()) {
+        answers['notes'] = { label: 'Qo\'shimcha izohlar', answer: notesArea.value.trim() };
+    }
+
+    return answers;
+}
+
+function formatMessage(answers) {
+    let msg = '📋 <b>S+ Talaba CustDev</b>\n';
+    msg += '━━━━━━━━━━━━━━━━━━\n\n';
+
+    for (const [key, val] of Object.entries(answers)) {
+        if (key === 'notes') {
+            msg += `\n📝 <b>${val.label}:</b>\n${val.answer}\n`;
+        } else {
+            msg += `<b>${key}. ${val.label}</b>\n➤ ${val.answer}\n\n`;
+        }
+    }
+
+    msg += '━━━━━━━━━━━━━━━━━━\n';
+    msg += `🕐 ${new Date().toLocaleString('uz-UZ', { timeZone: 'Asia/Tashkent' })}`;
+
+    return msg;
+}
+
+async function submitForm() {
+    const btn = document.querySelector('.submit-btn');
+    const originalText = btn.innerHTML;
+
+    // Loading state
+    btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spinner"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10"/></svg> Yuborilmoqda...`;
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    try {
+        const answers = collectAnswers();
+        const message = formatMessage(answers);
+
+        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: message,
+                parse_mode: 'HTML'
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.ok) {
+            document.getElementById('successOverlay').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('successOverlay').classList.remove('active');
+            }, 3500);
+        } else {
+            throw new Error(data.description || 'Telegram API error');
+        }
+    } catch (err) {
+        console.error('Submit error:', err);
+        // Show error state
+        const overlay = document.getElementById('successOverlay');
+        overlay.querySelector('.success-icon').textContent = '✕';
+        overlay.querySelector('.success-icon').style.background = 'linear-gradient(135deg, #ff4081, #f44336)';
+        overlay.querySelector('.success-text').textContent = 'Xatolik yuz berdi!';
+        overlay.querySelector('.success-sub').textContent = 'Iltimos, qaytadan urinib ko\'ring';
+        overlay.classList.add('active');
+        setTimeout(() => {
+            overlay.classList.remove('active');
+            // Reset overlay to success state
+            overlay.querySelector('.success-icon').textContent = '✓';
+            overlay.querySelector('.success-icon').style.background = 'linear-gradient(135deg, #00e676, #00c853)';
+            overlay.querySelector('.success-text').textContent = 'Javoblar saqlandi!';
+            overlay.querySelector('.success-sub').textContent = 'Ответы сохранены!';
+        }, 3500);
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        btn.style.opacity = '1';
+    }
+}
+</script>
+
+<style>
+.spinner { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
+</body>
+</html>
